@@ -9,21 +9,15 @@ vector<int> primos;
 bool isPrime(int n)
 {
     if (n < primos[primos.size() - 1])
-        // return binary_search(primos.begin(), primos.end(), n);
-        return true;
+        return binary_search(primos.begin(), primos.end(), n);
 
-    if(n < 10e12)
-        for (int i = 0; i < primos.size(); i++)
-        {
-            if (n % primos[i] == 0)
-                return false;
-            if(primos[i] * primos[i] > n)
-            {
-                primos.push_back(n);
-                return true;
-            }
-        }
-    cout << "limites excedidos" << endl;
+    for (int i = 0; i < primos.size(); i++)
+    {
+        if (n % primos[i] == 0)
+            return false;
+        if(primos[i] * primos[i] > n)
+            return true;
+    }
     return false;
 }
 
@@ -34,32 +28,31 @@ signed main()
     primos.push_back(2);
     primos.push_back(3);
     primos.push_back(5);
-    while(n < 10000000)
-    {
-        isPrime(n);
-        n += 2;
-    }
+    // while(n < 10000000)
+    // {
+    //     isPrime(n);
+    //     n += 2;
+    // }
     //COSPE PRIMOS  
     time_t startTime;
     time_t now;
     time(&startTime);
-
+    time(&now);
     int i = primos[primos.size() - 1] + 2;
 
-    while(difftime(now, startTime) <= 60)
+    while(difftime(now, startTime) <= 5)
     {
         for(int j = 0; j < 100000; j++)
         {
-            isPrime(i);
+            if(isPrime(i))
+                primos.push_back(i);
             i+=2;
         }
         time(&now);
     }
     cout << "NUMEROS CHECADOS: " << i << endl;
     cout << "PRIMOS ENCONTRADOS: " << primos.size() << endl;
-    for(int k = 0; k < primos.size(); k++)
-    {
-        cout << primos[k] << endl;
-    }
+    for(auto i : primos)
+        cout << i << endl;
     return 0;
 }

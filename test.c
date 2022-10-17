@@ -1,66 +1,81 @@
-#include <stdio.h> 
+#include <stdio.h>
+#include <string.h>
 #include <math.h>
-
-void dedicado (int contador, int total_programas, int total_linhas,int max_linhas, int dia_max_linhas)
+#include <stdlib.h>
+int fatorial(int z)
 {
-    if (contador==7)
+     if ( z == 0)
     {
-        printf ("QUANTIDADE DE DIAS QUE ATINGIU MEDIA DE PROGRAMAS: %d\n", total_programas); 
-        printf ("QUANTIDADE DE DIAS QUE ATINGIU MEDIA DE LINHAS: %d\n",total_linhas); 
-        printf ("DIA QUE MAIS PRODUZIU: ");
-        if (dia_max_linhas == 1)
-        {
-            printf ("DOMINGO");
-        }
-        else if (dia_max_linhas == 2)
-        {
-            printf ("SEGUNDA");
-        }   
-        else if (dia_max_linhas == 3)
-        {
-            printf ("TERCA");
-        }
-        else if (dia_max_linhas == 4)
-        {
-            printf ("QUARTA");
-        }
-        else if (dia_max_linhas == 5)
-        {
-            printf ("QUINTA");
-        }
-        else if (dia_max_linhas == 6)
-        {
-            printf ("SEXTA");
-        }
-        else if (dia_max_linhas == 7)
-        {
-            printf ("SABADO");
-        }
-        return;
+        return 1;
     }
-
-    int programas , linhas;  
-    scanf ("%d%d",&programas, &linhas);
-    contador += 1; 
-    if (linhas > max_linhas)
+    else
     {
-        max_linhas = linhas; 
-        dia_max_linhas = contador;
+        return z * fatorial(z-1);
     }
-    if (programas >=5)
-    {
-        total_programas += 1; 
-    }
-
-    if (linhas>=100)
-    {
-        total_linhas +=1; 
-    }
-    dedicado(contador,total_programas, total_linhas,max_linhas, dia_max_linhas); 
 }
-
-    int main ()
+int primo(int x, int cont)
 {
-        dedicado(0,0,0,0,0); 
-    return 0; 
+    
+
+    if(x == cont)
+    {
+        return x;
+    }
+    else if((x % cont == 0 && (cont != 1)) ||  x < 2)
+    {
+        return 0;
+    }
+    else
+    {
+        primo(x,cont + 1);
+    }
+}
+int proximoprimo(int y)
+{
+    if(primo(y, 1) == y) 
+    {
+      return y;
+    } 
+    else 
+    {
+      return proximoprimo(y + 1);
+    }
+}
+    
+double serie(int n, int cont)
+{
+    
+    if(n == cont )
+    {
+       return 0;
+       
+    }
+    
+    else 
+    {
+        if(n != 1)
+            printf(" + ");
+        printf("%d!/%d", n,proximoprimo(n));
+        return (double)fatorial(n)/proximoprimo(n) + serie(n + 1, cont);
+    }
+}
+int main() 
+{
+    int n;
+    scanf("%d",&n);
+
+    if (n == 0)
+    {
+        printf("0.00\n");
+        return 0;
+    }
+    else if(n == 1)
+    {
+        printf("1!/1\n 1.00");
+        return 0;
+    }
+    double resultado = serie(1,n);
+    printf("\n%.2lf\n", resultado);
+
+	return 0;
 }
