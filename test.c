@@ -1,114 +1,66 @@
-#include <stdio.h>
+#include <stdio.h> 
+#include <math.h>
 
-int potencia(int a){
-    if(a % 2 != 0){
-        return 0;
-    }
-    if(a == 1){
-        return 1;
-    }
-    return potencia(a / 2);
-}
-
-
-int primo(int v,int n){
-    if(n < 1){
-        return 1;
-    }
-    if(v % n == 0 || v == 1){
-        return 0;
-    }
-    return primo(v,n - 1);
-}
-
-
-int battle(int rodada,int atk1,int v1,int atk2,int v2){
-    printf("F coffees");
-    if(v1 <= 0){
-        return 0;
-    }
-    if(v2 <= 0){
-        return 1;
-    }
-    
-    else if(potencia(rodada) == 1){
-        if(v2 == 1 || v2 % 2 != 0){
-            v1 -= (atk2 + 5);
-           
+void dedicado (int contador, int total_programas, int total_linhas,int max_linhas, int dia_max_linhas)
+{
+    if (contador==7)
+    {
+        printf ("QUANTIDADE DE DIAS QUE ATINGIU MEDIA DE PROGRAMAS: %d\n", total_programas); 
+        printf ("QUANTIDADE DE DIAS QUE ATINGIU MEDIA DE LINHAS: %d\n",total_linhas); 
+        printf ("DIA QUE MAIS PRODUZIU: ");
+        if (dia_max_linhas == 1)
+        {
+            printf ("DOMINGO");
         }
-        else{
-            v1 -= atk2;
-           
+        else if (dia_max_linhas == 2)
+        {
+            printf ("SEGUNDA");
+        }   
+        else if (dia_max_linhas == 3)
+        {
+            printf ("TERCA");
         }
-        
-    }
-    else if(primo(rodada,rodada - 1) == 1){
-        if(v1 > atk1){
-            v2 -= v1;
-            
+        else if (dia_max_linhas == 4)
+        {
+            printf ("QUARTA");
         }
-        else{
-            v2 -= atk1;
-            
+        else if (dia_max_linhas == 5)
+        {
+            printf ("QUINTA");
         }
-        
-    }
-    else{
-        if(v1 > atk1){
-            v2 -= v1;
+        else if (dia_max_linhas == 6)
+        {
+            printf ("SEXTA");
         }
-        if(v1 < atk1){
-            v2 -= atk1;
-        }
-        if(v2 == 1 || v2 % 2 != 0){
-            v1 -= (atk2 + 5);
-        }
-        if(v2 % 2 == 0){
-            v1 -= atk2;
-        }
-        
-        
-    }
-   
-    return battle(rodada + 1,atk1,v1,atk2,v2);
-}
-
-
-
-
-void batalha(int v,int c1,int c2){
-    if(!v){
-        if(c1 > c2){
-            printf("ordep ganhou %d coffees",c1);
-        }
-        else if(c2 > c1){
-            printf("kcaj ganhou %d coffees",c2);
-        }
-        else{
-            printf("F coffees");
+        else if (dia_max_linhas == 7)
+        {
+            printf ("SABADO");
         }
         return;
     }
-    printf("F coffees");
-    int ataque_ordep, vida_ordep, ataque_kcaj, vida_kcaj;
-    
-    scanf("%d %d", &ataque_ordep,&vida_ordep);
-    
-    scanf("%d %d", &ataque_kcaj,&vida_kcaj);
-    
-    if(battle(1,ataque_ordep,vida_ordep,ataque_kcaj,vida_kcaj) == 1){
-        c1++;
+
+    int programas , linhas;  
+    scanf ("%d%d",&programas, &linhas);
+    contador += 1; 
+    if (linhas > max_linhas)
+    {
+        max_linhas = linhas; 
+        dia_max_linhas = contador;
     }
-    if(battle(1,ataque_ordep,vida_ordep,ataque_kcaj,vida_kcaj) == 0){
-        c2++;
+    if (programas >=5)
+    {
+        total_programas += 1; 
     }
 
-    batalha(v - 1,c1,c2);
+    if (linhas>=100)
+    {
+        total_linhas +=1; 
+    }
+    dedicado(contador,total_programas, total_linhas,max_linhas, dia_max_linhas); 
 }
 
-int main() {
-    int batalhas;
-    scanf("%d", &batalhas);
-    batalha(batalhas,0,0);
-	return 0;
+    int main ()
+{
+        dedicado(0,0,0,0,0); 
+    return 0; 
 }
