@@ -29,7 +29,7 @@ bool move(int i, int j, char mapa[505][505], int x, int y)
     for (int m = 0;m < 4; m++) 
         if (move(i, j, mapa, x + moves[m % 4], y + moves[(m + 1) % 4]))
         {
-            // If postion leads to solution, add direction to path
+            // If position leads to solution, add direction to path
             mapa[x][y] = directions[m];
             path.push_back(path_directions[m]);
             return true;
