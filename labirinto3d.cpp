@@ -6,7 +6,7 @@
 
 using namespace std;
 
-char mapa[70][70][70
+char mapa[70][70][70];
 vector<int> path;
 int moves[6] {1, 0, 0, -1, 0, 0};
 char directions[6] {'F', 'L', 'U', 'B', 'R', 'D'};

@@ -13,6 +13,6 @@ int main()
 {
     int infratores;
     int ans = solve(&infratores);
-    printf("%.2lf\n%d", ans * 12.89, ans);
+    printf("%.2lf\n%d", ans * 12.89, infratores);
     return 0;
 }
