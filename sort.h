@@ -25,9 +25,8 @@ void sort(double a[], int i, int j, int size, int (*cmp)(double, double))
         return;
 
     if(j >= size)
-    {
         return sort(a, 0, 1, size - 1, cmp);
-    }
+
     if(cmp(a[i], a[j]))
         swap(&a[i], &a[j], sizeof(*a));
 
