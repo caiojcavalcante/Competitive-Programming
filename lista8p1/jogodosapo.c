@@ -5,6 +5,7 @@ int main()
     int n, m, o, jogador = 0, jogada, posicao_atual;
     scanf("%d%d%d", &n, &m, &o);
     int tabuleiro[n], posicoes[m];
+    memset(posicoes, 0, sizeof(posicoes));
     for(int i = 0; i < n; i++)
     {
         scanf("%d", &tabuleiro[i]);
@@ -29,7 +30,6 @@ int main()
             posicoes[jogador] -= n;
     }
     for(int i = 0; i < m; i++)
-    {
         printf("%d\n", posicoes[i]);
     return 0;
 }

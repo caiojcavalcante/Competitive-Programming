@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
+<<<<<<< Updated upstream
 #define LEFT 0
 #define RIGHT 1
 #define MAIOR 0
@@ -24,11 +25,19 @@ void get_tree(int nivel, int node, int m[][2], int niveis[][2], int data[])
         get_tree(nivel + 1, m[node][LEFT], m, niveis, data);
     if(m[node][RIGHT] != -1)
         get_tree(nivel + 1, m[node][RIGHT], m, niveis, data);
+=======
+int profundidade(int n, int m[][3], int i, int j)
+{
+    if (i == -1)
+        return 0;
+    return 1 + profundidade(n, m, m[i][j], j);
+>>>>>>> Stashed changes
 }
 int main()
 {
     int n;
     scanf("%d", &n);
+<<<<<<< Updated upstream
 
     int m[n][2];
     int data[n];
@@ -49,5 +58,14 @@ int main()
     for(int i = 0; i < n; i++)
         if(niveis[i][MAIOR] != 0)
             printf("Nivel %d: Maior = %d, Menor = %d\n", i + 1, niveis[i][MAIOR], niveis[i][MENOR]);
+=======
+    int matriz[n][3];
+    int camadas[n][n];
+
+    for(int i = 0; i < n; i++)
+    {
+        scanf("%d%d%d", &matriz[i][0], &matriz[i][1], &matriz[i][2]);
+    }
+>>>>>>> Stashed changes
     return 0;
 }

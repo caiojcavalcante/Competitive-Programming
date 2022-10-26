@@ -16,27 +16,28 @@ void swap(void *x, void *y, size_t size)
 // {
 //     return memcmp(a, b, size) > 0;
 // }
-int bigger(double a, double b)
+int bigger(void* a, void* b)
 {
-    return a > b;
+    int ret = *(double*)a > *(double*)b;
+    printf("%.1lf = %.1lf %d\n", *(double*)a, *(double*)b, ret);
+    return ret;
 }
-int smaller(double a, double b)
+int smaller(void* a, void* b)
 {
-    return a < b;
+    return 0;
 }
-void sort(double a[], int i, int j, int size, int (*cmp)(double, double))
+void sort(void *a, size_t type, int i, int size, int (*cmp)(void *, void *))
 {
     if(size == 0)
         return;
 
-    if(j >= size)
-    {
-        return sort(a, 0, 1, size - 1, cmp);
-    }
-    if(cmp(a[i], a[j]))
-        swap(&a[i], &a[j], sizeof(*a));
+    if(i + 1 >= size)
+        return sort(a, 0, type, size - 1, cmp);
 
-    sort(a, i + 1, j + 1, size, cmp);
+    if(cmp(a + type * i, a + type * (i + 1)))
+        swap(&a[i], &a[i + 1], sizeof(*a));
+
+    sort(a, i + 1, type, size, cmp);
 }
 void print_arr(double a[], int size)
 {
@@ -60,13 +61,13 @@ int main()
     print_arr(arr, 3);
     printf("\n");
 
-    sort(arr, 0, 1, 4, bigger);
+    sort(arr, sizeof(double), 0, 4, bigger);
     print_arr(arr, 3);
     printf("\n");
 
-    sort(arr, 0, 1, 4, smaller);
-    print_arr(arr, 3);
-    printf("\n");
+    // sort(arr, 0, 1, 4, smaller);
+    // print_arr(arr, 3);
+    // printf("\n");
 
     // printf("%.2lf\n%.2lf\n%.2lf\n%.2lf\n", arr[0], arr[2], arr[3], arr[1]);
     
