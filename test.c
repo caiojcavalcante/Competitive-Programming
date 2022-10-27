@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-//FUNCIONA
 void swap(void *x, void *y, size_t size)
 {
     void* aux = malloc(size);
@@ -11,65 +10,56 @@ void swap(void *x, void *y, size_t size)
     memcpy(y, aux, size);
     free(aux);
 }
-// NAO FUNCIONA
-// int bigger(void* a, void* b, size_t size)
-// {
-//     return memcmp(a, b, size) > 0;
-// }
-int bigger(void* a, void* b)
-{
-    int ret = *(double*)a > *(double*)b;
-    printf("%.1lf = %.1lf %d\n", *(double*)a, *(double*)b, ret);
-    return ret;
+ 
+int bigger_f(void* a, void* b)
+{   
+    return *(double*)a > *(double*)b;
 }
-int smaller(void* a, void* b)
-{
-    return 0;
+int bigger_d(void* a, void* b)
+{   
+    return *(int*)a > *(int*)b;
 }
-void sort(void *a, size_t type, int i, int size, int (*cmp)(void *, void *))
+ 
+void sort(int a[], int i, int size, int (*cmp)(void *, void *))
 {
     if(size == 0)
         return;
+ 
+    if(i == size)
+        return sort(a, 0, size - 1, cmp);
 
-    if(i + 1 >= size)
-        return sort(a, 0, type, size - 1, cmp);
-
-    if(cmp(a + type * i, a + type * (i + 1)))
-        swap(&a[i], &a[i + 1], sizeof(*a));
-
-    sort(a, i + 1, type, size, cmp);
+    if(cmp(&a[i], &a[i + 1])) {
+        swap(&a[i], &a[ i + 1], sizeof(*a));
+    }
+ 
+    sort(a, i + 1, size, cmp);
 }
-void print_arr(double a[], int size)
+
+void print_arr(int a[], int size)
 {
     if(size > 0)
         print_arr(a, size - 1);
     
-    printf("%.2lf ", a[size]);
-}
-void scanreader(double *a, int counter)
-{
-    if (counter > 3)
-        return;
-    scanf("%lf", a + counter);
-    scanreader(a, counter + 1);
+    printf("%d ", a[size]);
 }
 int main()
 {
-    double arr[4];
-    scanreader(arr, 0);
+    int arr[4];
 
+    for(int i = 0; i < 4; i++)
+        scanf("%d", &arr[i]);
     print_arr(arr, 3);
     printf("\n");
-
-    sort(arr, sizeof(double), 0, 4, bigger);
+ 
+    sort(arr, 0, 3, bigger_d);
     print_arr(arr, 3);
     printf("\n");
-
+ 
     // sort(arr, 0, 1, 4, smaller);
     // print_arr(arr, 3);
     // printf("\n");
-
-    // printf("%.2lf\n%.2lf\n%.2lf\n%.2lf\n", arr[0], arr[2], arr[3], arr[1]);
+ 
+    // printf("%.2d\n%.2d\n%.2d\n%.2d\n", arr[0], arr[2], arr[3], arr[1]);
     
     return 0;
 }
