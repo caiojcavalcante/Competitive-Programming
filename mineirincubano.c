@@ -64,7 +64,5 @@ int main()
             swap(&arrcpy[i], &arrcpy[find_index(arrcpy, 3, arr[i])]);
         }
     }
-    // 4 2 8 6
-    // 2 4 6 8
     printf("\n%d", ans);
 }
