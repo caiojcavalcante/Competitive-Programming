@@ -1,11 +1,3 @@
-void swap(void *x, void *y, size_t size)
-{
-    void* aux = malloc(size);
-    memcpy(aux, x, size);
-    memcpy(x, y, size);
-    memcpy(y, aux, size);
-    free(aux);
-}
 // NAO FUNCIONA
 // int bigger(void* a, void* b, size_t size)
 // {
@@ -18,6 +10,14 @@ int bigger(double a, double b)
 int smaller(double a, double b)
 {
     return a < b;
+}
+void swap(void *x, void *y, size_t size)
+{
+    void* aux = malloc(size);
+    memcpy(aux, x, size);
+    memcpy(x, y, size);
+    memcpy(y, aux, size);
+    free(aux);
 }
 void sort(double a[], int i, int j, int size, int (*cmp)(double, double))
 {
