@@ -1,113 +1,104 @@
 #include <stdio.h>
 
-int is_prime(int a, int b)
-{ 
-    if(a == 1)
+int is_prime(int n, int div)
+{
+    if(n < 2)
         return 0;
-    if(b * b > a)
+    if(div * div > n)
         return 1;
-    if(!(a % b))
+    if(n % div == 0)
         return 0;
-    return is_prime(a, b + 1);
+    return is_prime(n, div + 1);
 }
-int soma_digitos(n)
+int proximo_primo(int n)
 {
-    return n ? n % 10 + soma_digitos(n / 10) : 0;
+    if(is_prime(n, 2))
+        return n;
+    return proximo_primo(n + 1);
 }
-int proximo_primo(int a)
+int soma_digitos(int n)
 {
-    if(is_prime(a, 2))
-        return a;
-    return proximo_primo(a + 1);
+    if(n == 0)
+        return 0;
+    return (n % 10) + soma_digitos(n / 10);
 }
 int mdc(int a, int b)
 {
-    return b ? mdc(b, a % b) : a;
-}
-void swap(int* a, int* b)
-{
-    int aux = *a;
-    *a = *b;
-    *b = aux;
+    if (b == 0)
+        return a;
+    return mdc(b, a % b);
 }
 void sort(int a[], int i, int size)
 {
-    if(size <= 0)
+    if(size == 0)
         return;
- 
-    if(i >= size)
+    if(i == size)
         return sort(a, 0, size - 1);
-
     if(a[i] > a[i + 1])
-        swap(&a[i], &a[i + 1]);
- 
+    {
+        int temp = a[i];
+        a[i] = a[i + 1];
+        a[i + 1] = temp;
+    }
     sort(a, i + 1, size);
+    
 }
-int pontos(int maior, int fator_principal)
+int pontos(int fator, int maior)
 {
-    return (is_prime(fator_principal, 2)) + (mdc(maior, fator_principal) == 1) + (is_prime(soma_digitos(proximo_primo(fator_principal + 1)), 2));
+    return (is_prime(fator, 2)) + (mdc(fator, maior) == 1) + (is_prime(soma_digitos(proximo_primo(fator + 1)), 2));
 }
-int scan(int kcaj[], int ordep[], int jogadas)
+int scan(int ordep[], int kcaj[], int jogadas)
 {
-    if (jogadas < 0) return 0;
+    if(jogadas < 0) return 0;
+    int dado, valido = 0;
 
-    scanf("%d", &kcaj[jogadas]);
-    scanf("%d", &ordep[jogadas]);
+    scanf("%d", &dado);
+    if(dado > 1500 || dado <= 0) valido++;
+    ordep[jogadas] = dado;
+    scanf("%d", &dado);
+    if(dado > 1500 || dado <= 0) valido++;
+    kcaj[jogadas] = dado;
 
-    if(kcaj[jogadas] > 1500 || kcaj[jogadas] < 0 || ordep[jogadas] > 1500 || ordep[jogadas] < 0)
-    {
-        printf("valor fora do limite!\n");
-        return -1;
-    }
-
-    return scan(kcaj, ordep, jogadas - 1);
+    return valido + scan(ordep, kcaj, jogadas - 1);    
 }
-void solve(int rodadas, int jogadas)
+void solve()
 {
-    int kcaj[jogadas], ordep[jogadas];
+    int jogadas, fator_kcaj, fator_ordep, pontos_kcaj, pontos_ordep, valido;
+    scanf("%d", &jogadas);
+    int ordep[jogadas], kcaj[jogadas];
 
-    int pontos_kcaj, principal_kcaj, pontos_ordep, principal_ordep;
+    valido = !scan(ordep, kcaj, jogadas - 1);
+        
+    sort(ordep, 0, jogadas - 1);
+    sort(kcaj, 0, jogadas - 1);
 
-    if (scan(kcaj, ordep, jogadas - 1) != 0 && rodadas > 0)
-        return solve(rodadas - 1, jogadas);
+    fator_kcaj = kcaj[0] + kcaj[jogadas - 1] + kcaj[jogadas / 2];
+    fator_ordep = ordep[0] + ordep[jogadas - 1] + ordep[jogadas / 2];
 
-    sort(kcaj, 0, jogadas);
-    sort(ordep, 0, jogadas);
-
-    printf("scanedo\n");
-    for(int i = 0; i < jogadas; i++)
+    pontos_kcaj = pontos(fator_kcaj, kcaj[jogadas - 1]);
+    pontos_ordep = pontos(fator_ordep, ordep[jogadas - 1]);
+    
+    if(valido)
     {
-        printf("j%d\n", kcaj[i]);
+        if(pontos_kcaj > pontos_ordep)
+            printf("Kcaj %d\n", fator_kcaj);
+        else if(pontos_kcaj < pontos_ordep)
+            printf("Ordep %d\n", fator_ordep);
+        else
+            printf("empate\n");
     }
-    for(int i = 0; i < jogadas; i++)
-    {
-        printf("p%d\n", ordep[i]);
-    }
-
-    principal_kcaj = kcaj[0]  + kcaj[(jogadas)  / 2] + kcaj[jogadas - 1];
-    principal_ordep = ordep[0] + ordep[(jogadas) / 2] + ordep[jogadas - 1];
-
-    pontos_kcaj  = pontos(kcaj[jogadas - 1], principal_kcaj);
-    pontos_ordep = pontos(ordep[jogadas - 1], principal_ordep);
-
-    printf("kcaj:%d ordep: %d\n", pontos_kcaj, pontos_kcaj);
-
-    if(pontos_kcaj > pontos_ordep)
-        printf("Kcaj %d\n\n", principal_kcaj);
-
-    else if(pontos_kcaj > pontos_ordep)
-        printf("Ordep %d\n\n", principal_ordep);
-
     else
-        printf("empate\n\n");
-
-    if(rodadas)
-        solve(rodadas - 1, jogadas);
+        printf("valor fora do limite!\n");
+}
+void loop(int rodadas)
+{
+    solve();
+    if(rodadas) loop(rodadas - 1);
 }
 int main()
 {
-    int rodadas, jogadas;
-    scanf("%d%d", &rodadas, &jogadas);
-    solve(rodadas - 1, jogadas);
+    int rodadas;
+    scanf("%d", &rodadas);
+    loop(rodadas - 1);
     return 0;
 }
