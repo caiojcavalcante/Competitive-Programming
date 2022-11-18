@@ -20,6 +20,11 @@ int main()
         {
             index = (l + r) / 2;
 
+            // dict[index] = string enésima do dicionario
+            //index = n
+            //word[j] = j-ésima letra da palavra
+            //dict[index][j] = j-ésima letra da string enésima do dicionario
+
             for (int j = 0; j < 11; j++)
             {
                 if (word[j] == dict[index][j] && word[j] == '\0')
