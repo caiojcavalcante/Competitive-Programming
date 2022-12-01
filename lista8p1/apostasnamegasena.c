@@ -18,7 +18,6 @@ int main()
     int apostas[n][12];
     int resposta[6];
     memset(apostas, 0, sizeof(apostas));
-    char virgula;
     while(n--)
     {
         int i = 0;
