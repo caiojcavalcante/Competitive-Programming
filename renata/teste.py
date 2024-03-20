@@ -1,0 +1,1 @@
+print(eval(input("Digite a operacao desejada: ")))
